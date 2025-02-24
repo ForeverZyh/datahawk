@@ -6,7 +6,7 @@ A lightweight app that makes visualizing and analyzing text data a breeze.
 
 #### Key Features
 
-⚡ **Intuitive Navigation**: Effortlessly browse and explore text data stored in many formats including HuggingFace and JSONL.<br>
+⚡ **Intuitive Navigation**: Effortlessly browse text data stored in many formats including HuggingFace and JSONL.<br>
 🚀 **Powerful Visualization**: Easily filter and sort data for better data insights.<br>
 💻 **Pretty-Print Code**: Visualize code in your JSONs in a human-friendly way.
 
