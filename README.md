@@ -52,7 +52,7 @@ Usage is quite intuitive! You can find on-screen instructions by hovering over t
 
 ## License
 
-Datahawk has an MIT license, as found in the [LICENSE](LICENSE) file.
+Datahawk has a GPL license, as found in the [LICENSE](LICENSE) file.
 
 
 ## Acknowledgements
