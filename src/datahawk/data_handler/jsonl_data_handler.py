@@ -60,8 +60,7 @@ class JSONLDataHandler(DataHandler):
             # check if file is open
             if self.current_data.closed:
                 return (False, {
-                    "error_message": "ERROR: No more items to stream. "
-                                     "Load the file again."
+                    "error_message": "ERROR: Reached end of file. Load the file again."
                 })
             # file is open, so read a line
             # while an index is provided, this has nothing to do with the index
@@ -70,8 +69,7 @@ class JSONLDataHandler(DataHandler):
             if not line:
                 self.current_data.close()
                 return (False, {
-                    "error_message": "ERROR: No more items to stream. "
-                                     "Load the file again."
+                    "error_message": "ERROR: Reached end of file. Load the file again."
                 })
             # found a non-empty line
             if line.strip():

@@ -1,23 +1,25 @@
-# Datahawk
+<p align="center">
+  <img src="static/datahawk-title.png" width=40%>
+</p>
 
 A lightweight app that makes visualizing and analyzing text data a breeze.
 
 #### Key Features
 
-⚡ **Intuitive Navigation**: Effortlessly browse and explore JSON data.<br>
+⚡ **Intuitive Navigation**: Effortlessly browse and explore text data stored in many formats including HuggingFace and JSONL.<br>
 🚀 **Powerful Visualization**: Easily filter and sort data for better data insights.<br>
 💻 **Pretty-Print Code**: Visualize code in your JSONs in a human-friendly way.
 
 Experience seamless data visualization with Datahawk 🦅!
 
-Alternatives include: [Lilac](https://www.lilacml.com/), [HuggingFace Dataset Viewer](https://huggingface.co/docs/datasets-server/)
+Alternatives include: [Lilac](https://www.lilacml.com/), [HuggingFace Dataset Viewer](https://huggingface.co/docs/datasets-server/).
 
 
 ## Instructions
 
 #### Install
 
-Installation requires `python>=3.8`.<br>
+Installation requires `python>=3.8`.
 
 ```shell
 pip install datahawk

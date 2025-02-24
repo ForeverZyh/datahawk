@@ -57,6 +57,9 @@ class Datahawk:
         # handle individual cases
         if self.read_mode == "load":
             self.can_filter, self.can_sort = True, True
+        elif self.read_mode == "stream":
+            if self.source == "hf":
+                self.can_filter = True
 
 
     def _get_handler(self, data_path: str, read_mode: str, source: str, 

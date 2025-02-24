@@ -77,82 +77,100 @@
         .info-icon:hover + .info-dialog {
             display: block;
         }
+
+        .container-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            align-items: center;
+            min-height: 100vh;
+            margin-top: -10em;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
     </style>
 </head>
 <body>
-<div class="container">
-    <h1><img src="static/hawk-128x128.png" width="75em">datahawk</h1>
-    {% if error_message %}
-        <p style="color: red;">{{ error_message }}</p>
-    {% endif %}
-    <form method="post">
-        <div class="form-container">
-            <div class="form-group">
-                <label for="data_path"><strong>Data Path</strong></label>
-                <div class="info-container">
-                    <span class="info-icon">i</span>
-                    <div class="info-dialog">
-                        The path to the data file or dataset. Currently supported:
-                        <ul>
-                            <li><strong>Local files:</strong> Absolute path or relative path from where the app was run.</li><br />
-                            <li><strong>HuggingFace:</strong> Tag used to identify the dataset on HuggingFace Datasets, e.g., <code>Salesforce/wikitext</code>.</li>
-                        </ul>
+<div class="container-wrapper">
+    <div class="container">
+        <h1><img src="static/hawk-128x128.png" width="75em">datahawk</h1>
+        {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+        <form method="post">
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="data_path"><strong>Data Path</strong></label>
+                    <div class="info-container">
+                        <span class="info-icon">i</span>
+                        <div class="info-dialog">
+                            The path to the data file or dataset. Currently supported:
+                            <ul>
+                                <li><strong>Local files:</strong> Absolute path or relative path from where the app was run.</li><br />
+                                <li><strong>HuggingFace:</strong> Tag used to identify the dataset on HuggingFace Datasets, e.g., <code>Salesforce/wikitext</code>.</li>
+                            </ul>
+                        </div>
                     </div>
+                    <input type="text" id="data_path" name="data_path" 
+                        style="font-family: monospace; font-size: 1.1em; width: 75em;"
+                        placeholder="Local or remote path to data"
+                        required>
                 </div>
-                <input type="text" id="data_path" name="data_path" 
-                       style="font-family: monospace; font-size: 1.1em; width: 75em;"
-                       placeholder="Local or remote path to data"
-                       required>
-            </div>
-            <div class="form-group">
-                <label for="read_mode"><strong>Read Mode</strong></label>
-                <div class="info-container">
-                    <span class="info-icon">i</span>
-                    <div class="info-dialog">Choose whether to load the data entirely in memory or stream it.</div>
-                </div>
-                <select name="read_mode" id="read_mode" 
-                        style="font-family: monospace; font-size: 1.1em;">
-                    <option value="load">Load</option>
-                    <option value="stream">Stream</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="source"><strong>Source Type</strong></label>
-                <div class="info-container">
-                    <span class="info-icon">i</span>
-                    <div class="info-dialog">
-                        Select the source of data: 
-                        <ul>
-                            <li><strong>JSONL: </strong>For local JSONL files.</li><br/>
-                            <li><strong>JSON: </strong>For local JSON files. The dataset should be an array of JSONs at the top level.</li><br/>
-                            <li><strong>HuggingFace: </strong>For local or remotely located HuggingFace datasets. If stored locally, dataset should be stored in <code>parquet</code> format.</li>
-                        </ul>
+                <div class="form-group">
+                    <label for="read_mode"><strong>Read Mode</strong></label>
+                    <div class="info-container">
+                        <span class="info-icon">i</span>
+                        <div class="info-dialog">Choose whether to load the data entirely in memory or stream it.</div>
                     </div>
+                    <select name="read_mode" id="read_mode" 
+                            style="font-family: monospace; font-size: 1.1em;">
+                        <option value="load">Load</option>
+                        <option value="stream">Stream</option>
+                    </select>
                 </div>
-                <select name="source" id="source" onchange="toggleSplitInput()" 
-                        style="font-family: monospace; font-size: 1.1em;">
-                    <option value="jsonl">JSONL</option>
-                    <option value="json">JSON</option>
-                    <option value="hf">HuggingFace</option>
-                </select>
-            </div>
-            <div class="form-group" id="split_group" style="display:none">
-                <label for="split"><strong>Split</strong></label>
-                <div class="info-container">
-                    <span class="info-icon">i</span>
-                    <div class="info-dialog">
-                        Specify the split for HuggingFace datasets, e.g., <code>train</code>, <code>test</code>, etc. <br/><br/>
-                        Leave empty if not applicable.
+                <div class="form-group">
+                    <label for="source"><strong>Source Type</strong></label>
+                    <div class="info-container">
+                        <span class="info-icon">i</span>
+                        <div class="info-dialog">
+                            Select the source of data: 
+                            <ul>
+                                <li><strong>JSONL: </strong>For local JSONL files.</li><br/>
+                                <li><strong>JSON: </strong>For local JSON files. The dataset should be an array of JSONs at the top level.</li><br/>
+                                <li><strong>HuggingFace: </strong>For local or remotely located HuggingFace datasets. If stored locally, specify path to directory containing <code>*.parquet</code> files.</li>
+                            </ul>
+                        </div>
                     </div>
+                    <select name="source" id="source" onchange="toggleSplitInput()" 
+                            style="font-family: monospace; font-size: 1.1em;">
+                        <option value="jsonl">JSONL</option>
+                        <option value="json">JSON</option>
+                        <option value="hf">HuggingFace</option>
+                    </select>
                 </div>
-                <input type="text" id="split" name="split" 
-                       style="font-family: monospace; font-size: 1.1em; width: 20em" 
-                       placeholder="Leave empty if not applicable">
+                <div class="form-group" id="split_group" style="display:none">
+                    <label for="split"><strong>Split</strong></label>
+                    <div class="info-container">
+                        <span class="info-icon">i</span>
+                        <div class="info-dialog">
+                            Specify the split for HuggingFace datasets, e.g., <code>train</code>, <code>test</code>, etc. <br/><br/>
+                            Leave empty if not applicable.
+                        </div>
+                    </div>
+                    <input type="text" id="split" name="split" 
+                        style="font-family: monospace; font-size: 1.1em; width: 20em" 
+                        placeholder="Leave empty if not applicable">
+                </div>
+                <div class="button-container">
+                    <button type="submit" style="font-size: 1em; width: 5em; height: 1.8em;">Submit</button>
             </div>
-            <div class="button-container">
-                <button type="submit" style="font-size: 1em; width: 5em; height: 1.8em;">Submit</button>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 </body>
 <script>

@@ -58,8 +58,7 @@ class JSONDataHandler(JSONLDataHandler):
                 self.current_item = next(self.current_data)
             except StopIteration:
                 return (False, {
-                    "error_message": "ERROR: No more items to stream. "
-                                     "Load the file again."
+                    "error_message": "ERROR: Reached end of file. Load the file again."
                 })
             except:
                 raise Exception("Could not parse the JSON file properly.")

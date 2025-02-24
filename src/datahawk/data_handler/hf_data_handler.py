@@ -102,8 +102,7 @@ class HFDataHandler(DataHandler):
                 return (True, self.current_item)
             except:
                 return (False, {
-                    "error_message": "ERROR: No more items to stream. "
-                                     "Load the file again."
+                    "error_message": "ERROR: Reached end of file. Load the file again."
                 })
         else:
             raise ValueError(f"Invalid read_mode: {self.read_mode}")
@@ -114,26 +113,31 @@ class HFDataHandler(DataHandler):
         If successful -> return the filtered data
         If fails -> return a str explaining what went wrong
         """
-        if self.read_mode == "stream":
-            raise ValueError(f"Filter operation not allowed in stream mode")
-        
-        elif self.read_mode == "load":
-            # curate filters
-            for f in filter_list_str:
-                try:
-                    # dynamically create the lambda function
-                    func = eval("lambda x: " + f)
-                    data = data.filter(func)
-                except:
-                    # render appropriate error
-                    return f"ERROR: Unable to apply filter: `{f}`"
-            # check for empty data
+        # curate filters
+        for f in filter_list_str:
+            try:
+                # dynamically create the lambda function
+                func = eval("lambda x: " + f)
+                data = data.filter(func)
+            except:
+                # render appropriate error
+                return f"ERROR: Unable to apply filter: `{f}`"
+        # check for empty data
+        if self.read_mode == "load":
             if len(data) == 0:
                 return "ERROR: No items matching these filters."
-            return data
-        
+        elif self.read_mode == "stream":
+            # try to get an item after streaming
+            iterator = iter(data)
+            try:
+                next(iterator)
+            except StopIteration:
+                return "ERROR: No items matching these filters."
+            except:
+                return "ERROR: Unable to apply filters. Something went wrong while streaming."
         else:
             raise ValueError(f"Invalid read_mode: {self.read_mode}")
+        return data
     
     def _sort_data(self, sort_list_str: List[str], data: Dataset) -> Dataset:
         """
@@ -173,7 +177,15 @@ class HFDataHandler(DataHandler):
         # make a fresh copy of original data
         # note this means that current copy of current_data is 
         # going to be lost
-        data = copy.deepcopy(self.data)
+        
+        # for load mode it means copying the data itself
+        if self.read_mode == "load":
+            data = copy.deepcopy(self.data)
+        # for stream mode it means creating a new iterator over the original data
+        elif self.read_mode == "stream":
+            self.read_data()
+            data = self.data
+
         # filter data
         if len(filter_list_str):
             data = self._filter_data(filter_list_str, data)
@@ -193,6 +205,12 @@ class HFDataHandler(DataHandler):
                 }
 
         # successfully filtered and sorted, so can update state and render
-        del self.current_data
-        self.current_data = data
+        if self.read_mode == "load":
+            del self.current_data
+            self.current_data = data
+        elif self.read_mode == "stream":
+            del self.iterator
+            self.data = data
+            self.iterator = iter(self.data)
+        
         return None
