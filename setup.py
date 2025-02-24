@@ -15,9 +15,9 @@ setup(
     description="A visualization tool for text data",  # Optional
     long_description=long_description,  # Optional
     long_description_content_type="text/markdown",  # Optional
-    url="github.com/nihaljn/datahawk",  # Optional
+    url="https://github.com/nihaljn/datahawk",  # Optional
     author="Nihal Jain",  # Optional
-    author_email="nihalj@cs.cmu.edu",  # Optional
+    author_email="nihal.b.jain@gmail.com",  # Optional
     # For a list of valid classifiers, see https://pypi.org/classifiers/
     classifiers=[  # Optional
         "Development Status :: 3 - Alpha",
@@ -25,7 +25,7 @@ setup(
         "Intended Audience :: Science/Research",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "Topic :: Scientific/Engineering :: Visualization",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Programming Language :: Python :: 3",
     ],
     keywords="data visualization, research, natural language processing",  # Optional
@@ -45,9 +45,9 @@ setup(
         ],
     },
     project_urls={  # Optional
-        "Bug Reports": "",
-        "Funding": "",
-        "Say Thanks!": "http://saythanks.io/to/...",
-        "Source": "",
+        "Bug Reports": "https://github.com/nihaljn/datahawk/issues",
+        "Funding": "buymeacoffee.com/nihaljn",
+        "Say Thanks!": "https://saythanks.io/to/nihal.b.jain",
+        "Source": "https://github.com/nihaljn/datahawk",
     },
 )
