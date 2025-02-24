@@ -2,15 +2,15 @@
   <img src="static/datahawk-title.png" width=40%>
 </p>
 
-A lightweight app that makes visualizing and analyzing text data a breeze.
+A lightweight app that makes browsing and analyzing text data a breeze.
 
 #### Key Features
 
 ⚡ **Intuitive Navigation**: Effortlessly browse text data stored in many formats including HuggingFace and JSONL.<br>
-🚀 **Powerful Visualization**: Easily filter and sort data for better data insights.<br>
+🚀 **Powerful Analysis**: Easily filter and sort data for better data insights.<br>
 💻 **Pretty-Print Code**: Visualize code in your JSONs in a human-friendly way.
 
-Experience seamless data visualization with Datahawk 🦅!
+Experience seamless data browsing with Datahawk 🦅!
 
 Alternatives include: [Lilac](https://www.lilacml.com/), [HuggingFace Dataset Viewer](https://huggingface.co/docs/datasets-server/).
 
