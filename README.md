@@ -22,7 +22,8 @@ Alternatives include: [Lilac](https://www.lilacml.com/), [HuggingFace Dataset Vi
 Installation requires `python>=3.8`.
 
 ```shell
-pip install -e .
+git clone github.com/nihaljn/datahawk
+pip install -e datahawk
 # pip package coming soon
 ```
 
