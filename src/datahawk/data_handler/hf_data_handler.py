@@ -155,7 +155,7 @@ class HFDataHandler(DataHandler):
                 # map the data to have keys
                 sorting_keys = [f"__key__{i}__" for i in range(len(sort_list_str))]
                 mapped = data.map(lambda x: {
-                    sorting_keys[i]: eval(sort_list_str[i]) 
+                    sorting_keys[i]: eval(sort_list_str[i], {}, {"x": x}) 
                                      for i in range(len(sort_list_str))
                 })
                 # sort with keys
