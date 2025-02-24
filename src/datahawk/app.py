@@ -19,9 +19,11 @@ def index() -> str:
             read_mode = request.form.get("read_mode", None)
             source = request.form.get("source", None)
             split = request.form.get("split", None).strip()
+            config_name = request.form.get("config_name", None).strip()
             # create a new instance of Datahawk
             data_inspector = Datahawk(
-                data_path, read_mode, source, split=split,
+                data_path, read_mode, source, 
+                split=split, config_name=config_name,
                 cache_dir=cache_dir
             )
             return data_inspector.render()

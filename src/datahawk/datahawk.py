@@ -18,14 +18,18 @@ class Datahawk:
     """
     def __init__(self, data_path: str, read_mode: str, source: str, 
                  split: Optional[str] = None,
+                 config_name: Optional[str] = None,
                  cache_dir: Optional[str] = None):
         # data handler and metadata
         self.data_path: str = data_path
         self.read_mode: str = read_mode
         self.source: str = source
         self.split: Optional[str] = split
+        self.config_name: Optional[str] = config_name
         self.handler: DataHandler = self._get_handler(
-            data_path, read_mode, source, split=split, cache_dir=cache_dir
+            data_path, read_mode, source, 
+            split=split, config_name=config_name,
+            cache_dir=cache_dir
         )
         # state
         self.current_index: int = None                          # index of item being rendered
@@ -64,7 +68,8 @@ class Datahawk:
 
     def _get_handler(self, data_path: str, read_mode: str, source: str, 
                      split: Optional[str] = None,
-                     cache_dir: Optional[str] = None) -> DataHandler:
+                     cache_dir: Optional[str] = None,
+                     config_name: Optional[str] = None) -> DataHandler:
         """Route to specific DataHandler based on the request"""
         if source == "jsonl":
             return JSONLDataHandler(data_path, read_mode)
@@ -72,7 +77,7 @@ class Datahawk:
             return JSONDataHandler(data_path, read_mode)
         elif source == "hf":
             return HFDataHandler(data_path, read_mode, split=split,
-                                 cache_dir=cache_dir)
+                                 cache_dir=cache_dir, config_name=config_name)
         else:
             raise NotImplementedError("Datahawk does not support source "
                                       f"{source}.")

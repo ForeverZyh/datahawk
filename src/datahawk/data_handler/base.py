@@ -7,7 +7,7 @@ class DataHandler(ABC):
     The backend data handler. Maintains current data state and operates on it
     to give the Inspector what it is asking for.
     """
-    def __init__(self, data_path: str, read_mode: str):
+    def __init__(self, data_path: str, read_mode: str, *args, **kwargs):
         self.data_path: str = data_path
         self.read_mode: str = read_mode
         self.current_index: int = None

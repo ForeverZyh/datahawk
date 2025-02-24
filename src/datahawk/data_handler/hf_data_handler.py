@@ -11,9 +11,11 @@ from .base import DataHandler
 class HFDataHandler(DataHandler):
     def __init__(self, data_path: str, read_mode: str, 
                  split: Optional[str] = None,
-                 cache_dir: Optional[str] = None):
+                 cache_dir: Optional[str] = None,
+                 config_name: Optional[str] = None):
         super().__init__(data_path, read_mode)
         self.split = split
+        self.config_name = config_name
         self.cache_dir = cache_dir
 
     def data_size(self) -> Optional[int]:
@@ -63,14 +65,15 @@ class HFDataHandler(DataHandler):
                 if self.read_mode == "load":
                     # load the dataset
                     self.data = load_dataset(
-                        self.data_path, split=self.split, cache_dir=self.cache_dir
+                        self.data_path, split=self.split, cache_dir=self.cache_dir,
+                        name=self.config_name
                     )
                     self.current_data = copy.deepcopy(self.data)
                 elif self.read_mode == "stream":
                     # stream the dataset
                     self.data = load_dataset(
                         self.data_path, split=self.split, cache_dir=self.cache_dir,
-                        streaming=True
+                        name=self.config_name, streaming=True
                     )
                     self.iterator = iter(self.data)
                 else:
