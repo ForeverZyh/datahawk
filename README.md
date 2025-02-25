@@ -8,8 +8,8 @@ A lightweight app that makes browsing and analyzing text data a breeze.
 
 #### Key Features
 
-🔍 **Intuitive Navigation**: Effortlessly browse local or remote data in HuggingFace, JSONL, etc., formats.<br>
-⚡ **Memory-efficient Browsing**: Process large local or remote datasets without loading in memory.<br>
+🔍 **Intuitive Navigation**: Effortlessly browse local (or remote) data in HuggingFace, JSONL, etc., formats.<br>
+⚡ **Efficient Browsing**: Stream large local (or remote) datasets without loading (or downloading) in memory.<br>
 🚀 **Powerful Analysis**: Easily filter and sort data for better insights.<br>
 💻 **Pretty-Print Code**: Human-friendly visualization of code embedded in your data.
 
