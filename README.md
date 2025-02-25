@@ -16,7 +16,7 @@ A lightweight app that makes browsing and analyzing text data a breeze.
 Experience seamless data browsing and analysis with Datahawk 🦅!
 
 <p align="center">
-  <img src="static/demo-big.gif" width=75%>
+  <img src="static/big.gif" width=90%>
 </p>
 
 Alternatives include: [Lilac](https://www.lilacml.com/), [HuggingFace Dataset Viewer](https://huggingface.co/docs/datasets-server/).
