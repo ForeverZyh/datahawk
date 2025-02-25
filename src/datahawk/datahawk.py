@@ -90,7 +90,7 @@ class Datahawk:
                 indent=4
             ),
             "data_path": self.data_path,
-            "data_size": self.data_size,
+            "data_size": self.handler.data_size(),
             "index": self.current_index,
             "filter_list": self.filter_list_str,
             "key_list": self.key_list_str,

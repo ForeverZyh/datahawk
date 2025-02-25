@@ -23,8 +23,6 @@ class HFDataHandler(DataHandler):
         if self.read_mode == "load":
             return len(self.current_data)
         elif self.read_mode == "stream":
-            # raise ValueError("HFDataHandler does not support data_size for "
-            #                  "stream mode")
             return None
         else:
             raise ValueError("HFDataHandler does not support read_mode: "

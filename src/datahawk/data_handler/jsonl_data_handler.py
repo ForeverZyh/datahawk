@@ -15,8 +15,6 @@ class JSONLDataHandler(DataHandler):
         if self.read_mode == "load":
             return len(self.current_data)
         elif self.read_mode == "stream":
-            # raise ValueError("JSONLDataHandler does not support data_size for "
-            #                  "stream mode")
             return None
         else:
             raise ValueError("JSONLDataHandler does not support read_mode: "

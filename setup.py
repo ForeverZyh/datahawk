@@ -11,7 +11,7 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="datahawk",  # Required
-    version="0.0.1",  # Required
+    version="0.0.4",  # Required
     description="Text data browser for visualization and analysis",  # Optional
     long_description=long_description,  # Optional
     long_description_content_type="text/markdown",  # Optional
@@ -31,6 +31,9 @@ setup(
     keywords="data visualization, research, natural language processing",  # Optional
     package_dir={"": "src"},  # Optional
     packages=find_packages(where="src"),  # Required
+    package_data={
+        "datahawk": ["templates/*", "static/*"],
+    },
     python_requires=">=3.8",
     install_requires=[
         "flask>=2.0",
