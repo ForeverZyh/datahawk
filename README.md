@@ -2,15 +2,22 @@
   <img src="static/datahawk-title.png" width=40%>
 </p>
 
+---
+
 A lightweight app that makes browsing and analyzing text data a breeze.
 
 #### Key Features
 
-⚡ **Intuitive Navigation**: Effortlessly browse text data stored in many formats including HuggingFace and JSONL.<br>
-🚀 **Powerful Analysis**: Easily filter and sort data for better data insights.<br>
-💻 **Pretty-Print Code**: Visualize code in your JSONs in a human-friendly way.
+🔍 **Intuitive Navigation**: Effortlessly browse local or remote data in HuggingFace, JSONL, etc., formats.<br>
+⚡ **Memory-efficient Browsing**: Process large local or remote datasets without loading in memory.<br>
+🚀 **Powerful Analysis**: Easily filter and sort data for better insights.<br>
+💻 **Pretty-Print Code**: Human-friendly visualization of code embedded in your data.
 
-Experience seamless data browsing with Datahawk 🦅!
+Experience seamless data browsing and analysis with Datahawk 🦅!
+
+<p align="center">
+  <img src="static/demo.gif" width=75%>
+</p>
 
 Alternatives include: [Lilac](https://www.lilacml.com/), [HuggingFace Dataset Viewer](https://huggingface.co/docs/datasets-server/).
 
@@ -22,9 +29,9 @@ Alternatives include: [Lilac](https://www.lilacml.com/), [HuggingFace Dataset Vi
 Installation requires `python>=3.8`.
 
 ```shell
+# NOTE: PyPI package coming soon!
 git clone https://github.com/nihaljn/datahawk
 pip install -e datahawk
-# pip package coming soon
 ```
 
 #### Run
@@ -47,7 +54,7 @@ This will start the application at `localhost:PORT`.
 
 #### Usage
 
-Usage is quite intuitive! You can find on-screen instructions by hovering over the information icons.
+Usage is quite intuitive! You can find on-screen instructions by hovering over the information icons ℹ️.
 
 
 ## License
