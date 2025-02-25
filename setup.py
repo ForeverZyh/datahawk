@@ -12,7 +12,7 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 setup(
     name="datahawk",  # Required
     version="0.0.1",  # Required
-    description="A visualization tool for text data",  # Optional
+    description="Text data browser for visualization and analysis",  # Optional
     long_description=long_description,  # Optional
     long_description_content_type="text/markdown",  # Optional
     url="https://github.com/nihaljn/datahawk",  # Optional
@@ -25,7 +25,7 @@ setup(
         "Intended Audience :: Science/Research",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "Topic :: Scientific/Engineering :: Visualization",
-        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+        "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
     ],
     keywords="data visualization, research, natural language processing",  # Optional
@@ -46,7 +46,7 @@ setup(
     },
     project_urls={  # Optional
         "Bug Reports": "https://github.com/nihaljn/datahawk/issues",
-        "Funding": "buymeacoffee.com/nihaljn",
+        "Funding": "https://buymeacoffee.com/nihaljn",
         "Say Thanks!": "https://saythanks.io/to/nihal.b.jain",
         "Source": "https://github.com/nihaljn/datahawk",
     },
