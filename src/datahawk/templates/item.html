@@ -84,6 +84,13 @@
             color: #000;
         }
 
+        .nested-json {
+            margin-left: 20px;
+            border-left: 1px solid #ddd;
+            padding-left: 10px;
+        }
+
+
         h1 {
             display: flex;
             align-items: center;
@@ -129,13 +136,78 @@
             });
         });
 
-        // Function to render the JSON output
+        function renderJsonValue(value, parentKey) {
+            if (typeof value === 'object' && value !== null) {
+                // Create a container for nested object
+                var nestedContainer = document.createElement('div');
+                nestedContainer.className = 'nested-json';
+                nestedContainer.style.marginLeft = '20px';
+
+                for (var nestedKey in value) {
+                    var nestedScrollContainer = document.createElement('div');
+                    nestedScrollContainer.className = 'scroll-container';
+
+                    var nestedHeader = document.createElement('div');
+                    nestedHeader.className = 'json-header';
+
+                    // Add toggle button for nested object
+                    var nestedToggleButton = document.createElement('button');
+                    nestedToggleButton.innerHTML = '▼';
+                    nestedToggleButton.className = 'toggle-button';
+                    nestedToggleButton.style.marginRight = '5px';
+
+                    var nestedKeyElement = document.createElement('div');
+                    nestedKeyElement.className = 'json-key';
+                    nestedKeyElement.textContent = nestedKey + ':';
+
+                    nestedHeader.appendChild(nestedToggleButton);
+                    nestedHeader.appendChild(nestedKeyElement);
+
+                    // Create container for nested value
+                    var nestedValueContainer = document.createElement('div');
+                    nestedValueContainer.className = 'value-scroll';
+
+                    // Recursively render nested value
+                    var nestedContent = renderJsonValue(value[nestedKey], `${parentKey}-${nestedKey}`);
+                    nestedValueContainer.appendChild(nestedContent);
+
+                    nestedToggleButton.onclick = function(valueContainer) {
+                        return function() {
+                            if (valueContainer.style.display === 'none') {
+                                valueContainer.style.display = 'block';
+                                this.innerHTML = '▼';
+                            } else {
+                                valueContainer.style.display = 'none';
+                                this.innerHTML = '▶';
+                            }
+                            adjustScrollContainerHeights();
+                        };
+                    }(nestedValueContainer);
+
+                    nestedScrollContainer.appendChild(nestedHeader);
+                    nestedScrollContainer.appendChild(nestedValueContainer);
+                    nestedContainer.appendChild(nestedScrollContainer);
+                }
+                return nestedContainer;
+            } else {
+                // Handle primitive values
+                var valueWrapper = document.createElement('div');
+                valueWrapper.className = 'json-value-wrapper';
+
+                var valueContent = document.createElement('span');
+                valueContent.className = 'value-line-text';
+                valueContent.textContent = typeof value === 'string' ? value : JSON.stringify(value);
+
+                valueWrapper.appendChild(valueContent);
+                return valueWrapper;
+            }
+        }
+
         function renderJson() {
             var jsonOutput = document.getElementById('json-output');
             var jsonData = {{ json_entry|safe }};
-            
+
             for (var key in jsonData) {
-                // Create the scrollable container first
                 var scrollContainer = document.createElement('div');
                 scrollContainer.className = 'scroll-container';
 
@@ -144,86 +216,57 @@
 
                 // Add toggle button
                 var toggleButton = document.createElement('button');
-                toggleButton.innerHTML = '▼'; // Down arrow to indicate expanded
+                toggleButton.innerHTML = '▼';
                 toggleButton.className = 'toggle-button';
                 toggleButton.style.marginRight = '5px';
-                var toggleFunction = function(valueContainer) {
-                    return function() {
-                        if (valueContainer.style.display === 'none') {
-                            valueContainer.style.display = 'block';
-                            this.innerHTML = '▼';
-                            adjustScrollContainerHeights();
-                        } else {
-                            valueContainer.style.display = 'none';
-                            this.innerHTML = '▶';
-                            adjustScrollContainerHeights();
-                        }
-                    };
-                };
-                jsonHeader.appendChild(toggleButton);
 
                 var keyElement = document.createElement('div');
                 keyElement.className = 'json-key';
                 keyElement.textContent = key + ':';
-                jsonHeader.appendChild(keyElement);
 
                 var clipboardElement = document.createElement('i');
                 clipboardElement.classList.add('clipboardIcon', 'far', 'fa-clone');
                 clipboardElement.setAttribute('data-argument', `${key}-value`);
                 clipboardElement.style.cursor = 'pointer';
-                jsonHeader.appendChild(clipboardElement);
 
+                jsonHeader.appendChild(toggleButton);
+                jsonHeader.appendChild(keyElement);
+                jsonHeader.appendChild(clipboardElement);
                 scrollContainer.appendChild(jsonHeader);
 
-                // Create a scrollable div for the value
+                // Create hidden div for clipboard functionality
+                var hiddenFullValue = document.createElement('div');
+                hiddenFullValue.id = `${key}-value`;
+                hiddenFullValue.style.display = 'none';
+                hiddenFullValue.textContent = JSON.stringify(jsonData[key], null, 2);
+                scrollContainer.appendChild(hiddenFullValue);
+
+                // Create value container
                 var valueScrollContainer = document.createElement('div');
                 valueScrollContainer.className = 'value-scroll';
 
-                // Prepare the content (unescape any special chars)
-                let content = jsonData[key]
-                    .replace(/\\n/g, '\n')
-                    .replace(/\\'/g, '\'')
-                    .replace(/\\"/g, '"')
-                    .replace(/\\\\/g, '\\');
+                // Render the value (potentially nested)
+                var content = renderJsonValue(jsonData[key], key);
+                valueScrollContainer.appendChild(content);
 
-                // This hidden div will hold the entire text to be copied
-                // (since line numbering is separated out)
-                var hiddenFullValue = document.createElement('div');
-                hiddenFullValue.id = `${key}-value`;
-                hiddenFullValue.style.display = 'none';  // don't show it
-                hiddenFullValue.textContent = content;
-                scrollContainer.appendChild(hiddenFullValue);
+                toggleButton.onclick = function(valueContainer) {
+                    return function() {
+                        if (valueContainer.style.display === 'none') {
+                            valueContainer.style.display = 'block';
+                            this.innerHTML = '▼';
+                        } else {
+                            valueContainer.style.display = 'none';
+                            this.innerHTML = '▶';
+                        }
+                        adjustScrollContainerHeights();
+                    };
+                }(valueScrollContainer);
 
-                // Split by newlines, render each line in a .json-value-wrapper
-                var lines = content.split('\n');
-                lines.forEach(function(line, index) {
-                    var lineWrapper = document.createElement('div');
-                    lineWrapper.className = 'json-value-wrapper';
-
-                    var lineNumberSpan = document.createElement('span');
-                    lineNumberSpan.className = 'value-line-number';
-                    lineNumberSpan.textContent = (index + 1).toString();
-
-                    var lineTextSpan = document.createElement('span');
-                    lineTextSpan.className = 'value-line-text';
-                    lineTextSpan.textContent = line;
-
-                    // Add both to the wrapper
-                    lineWrapper.appendChild(lineNumberSpan);
-                    lineWrapper.appendChild(lineTextSpan);
-
-                    // Add this line to the value scroll container
-                    valueScrollContainer.appendChild(lineWrapper);
-                });
-                toggleButton.onclick = toggleFunction(valueScrollContainer);
-
-                // Add the value scroll container to the main container
                 scrollContainer.appendChild(valueScrollContainer);
-                
-                // Add the scroll container to the output
                 jsonOutput.appendChild(scrollContainer);
             }
         }
+
         
         // Call the renderJson function on page load
         window.onload = function() {

@@ -2,7 +2,7 @@ import copy
 import json
 import random
 from pprint import pformat
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Iterable
 
 from flask import render_template
 
@@ -126,7 +126,7 @@ class Datahawk:
 
 
     @staticmethod
-    def prepare_for_rendering(json_item: Dict) -> Dict:
+    def prepare_for_rendering(json_item: Dict, dep: int=0) -> Dict:
         """Take `json_item` and convert it into a format 
         such that it can be rendered. Currently this involves:
             1. Converting all values to appropriate strings
@@ -134,14 +134,27 @@ class Datahawk:
         x = copy.deepcopy(json_item)
         for k in x:
             if (
-                isinstance(x[k], str) or isinstance(x[k], int) or 
+                isinstance(x[k], str) or isinstance(x[k], int) or
                 isinstance(x[k], float) or isinstance(x[k], bool)
             ):
                 # convert to string
                 x[k] = str(x[k])
+            elif isinstance(x[k], Dict):
+                x[k] = Datahawk.prepare_for_rendering(x[k], dep + 1)
             else:
-                # let pprint format the output
-                x[k] = pformat(x[k], width=100, compact=False)
+                attempt_to_pp = pformat(x[k], width=100 - dep * 10, compact=False)
+                if isinstance(x[k], Iterable):
+                    # convert to dict
+                    xk_dict = {f"{type(x[k])}_{i}": v for i, v in enumerate(x[k])}
+                    if all(not isinstance(v, str) for _, v in xk_dict.items()) and len(attempt_to_pp) < 100:
+                        xk_dict = None
+                else:
+                    xk_dict = None
+                if xk_dict is None:
+                    x[k] = attempt_to_pp
+                else:
+                    x[k] = Datahawk.prepare_for_rendering(xk_dict, dep + 1)
+
         return x
 
 
